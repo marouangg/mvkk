@@ -1,0 +1,69 @@
+﻿@model IEnumerable<WebApplication5.Category>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+<input type="text" name="find" id="find" value="@ViewBag.findd" />
+<input type="button" name="find" id="btn_find" />
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CategoryName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Picture)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.CategoryName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Picture)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.CategoryID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.CategoryID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.CategoryID })
+        </td>
+    </tr>
+}
+
+</table>
+
+@section Scripts{
+<script>
+    $("#btn_find").click(function () {
+
+        d = {
+            'find': $("#find").val(),
+
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "Categories/getAllcategoris",
+            data: d,
+            success: function (response) {
+                $("#lst_categories").html(response);
+            }
+        });
+
+    });
+    </script>    
+}
